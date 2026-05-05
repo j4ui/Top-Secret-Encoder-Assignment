@@ -22,7 +22,10 @@ public class Main {
     public static int determineShiftIndex(String key) {
         int shiftIndex = 0;
         for (int i = 0; i < key.length(); i++) {
-            shiftIndex += key.charAt(i)-96;
+            char c = Character.toLowerCase(key.charAt(i));
+            if (c >= 'a' && c <= 'z') {
+                shiftIndex += (c - 'a' + 1);
+            }
         }
         return shiftIndex;
     }
@@ -36,12 +39,14 @@ public class Main {
         int shiftIndex = determineShiftIndex(key);
         String encryptedWord = "";
         for (int i = 0; i < word.length(); i++) {
-            int charIndex = word.charAt(i) - 96;
-            int newCharIndex = charIndex + shiftIndex;
-            if (newCharIndex > 26) {
-                newCharIndex = newCharIndex % 26;
+            char c = Character.toLowerCase(word.charAt(i));
+            if (c >= 'a' && c <= 'z') {
+                int charIndex = c - 'a' + 1;
+                int newCharIndex = (charIndex + shiftIndex - 1) % 26 + 1;
+                encryptedWord += (char) (newCharIndex - 1 + 'a');
+            } else {
+                encryptedWord += c;
             }
-            encryptedWord += (char) (newCharIndex + 96);
         }
         System.out.println("\nEncoded word: " + encryptedWord);
 
@@ -57,12 +62,14 @@ public class Main {
         key = scanner.nextLine();
         int shiftIndex = determineShiftIndex(key);
         for (int i = 0; i < word.length(); i++) {
-            int charIndex = word.charAt(i) - 96;
-            int newCharIndex = charIndex - shiftIndex;
-            if (newCharIndex < 1) {
-                newCharIndex = newCharIndex + 26;
+            char c = Character.toLowerCase(word.charAt(i));
+            if (c >= 'a' && c <= 'z') {
+                int charIndex = c - 'a' + 1;
+                int newCharIndex = (charIndex - shiftIndex - 1 + 26) % 26 + 1;
+                decryptedWord += (char) (newCharIndex - 1 + 'a');
+            } else {
+                decryptedWord += c;
             }
-            decryptedWord += (char) (newCharIndex + 96);
         }
         System.out.println("\nDecoded word: " + decryptedWord);
     }
