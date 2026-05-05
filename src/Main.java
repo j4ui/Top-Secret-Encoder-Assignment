@@ -32,14 +32,12 @@ public class Main {
 
     public static void encryptWord() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter an unencrypted word: ");
-        String word = scanner.nextLine();
-        System.out.println("Enter an encryption key");
-        String key = scanner.nextLine();
+        String word = getWord(false);
+        String key = getEncryptionKey();
         int shiftIndex = determineShiftIndex(key);
         String encryptedWord = "";
         for (int i = 0; i < word.length(); i++) {
-            char c = Character.toLowerCase(word.charAt(i));
+            char c = word.charAt(i);
             if (c >= 'a' && c <= 'z') {
                 int charIndex = c - 'a' + 1;
                 int newCharIndex = (charIndex + shiftIndex - 1) % 26 + 1;
@@ -53,16 +51,15 @@ public class Main {
     }
 
     public static void decryptWord() {
+        // TODO: fix
         Scanner scanner = new Scanner(System.in);
         String word, key;
         String decryptedWord = "";
-        System.out.println("Enter an encrypted word: ");
-        word = scanner.nextLine();
-        System.out.println("Enter an encryption key: ");
-        key = scanner.nextLine();
+        word = getWord(true);
+        key = getEncryptionKey();
         int shiftIndex = determineShiftIndex(key);
         for (int i = 0; i < word.length(); i++) {
-            char c = Character.toLowerCase(word.charAt(i));
+            char c = word.charAt(i);
             if (c >= 'a' && c <= 'z') {
                 int charIndex = c - 'a' + 1;
                 int newCharIndex = (charIndex - shiftIndex - 1 + 26) % 26 + 1;
@@ -72,5 +69,44 @@ public class Main {
             }
         }
         System.out.println("\nDecoded word: " + decryptedWord);
+    }
+
+    public static String getEncryptionKey() {
+        Scanner scanner = new Scanner(System.in);
+        String key;
+        do {
+            System.out.println("Enter an encryption key: ");
+            key = scanner.nextLine();
+            for (int i = 0; i < key.length(); i++) {
+                char c = key.charAt(i);
+                if (c < 'a' || c > 'z') {
+                    System.out.println("Invalid string. Please enter only lowercase letters.");
+                    key = null;
+                    break;
+                }
+            }
+        } while (key == null);
+        return key;
+    }
+    public static String getWord(Boolean isEncrypted) {
+        Scanner scanner = new Scanner(System.in);
+        String word;
+        do {
+            if (isEncrypted) {
+                System.out.println("Enter an encrypted word: ");
+            } else {
+                System.out.println("Enter an unencrypted word: ");
+            }
+            word = scanner.nextLine();
+            for (int i = 0; i < word.length(); i++) {
+                char c = word.charAt(i);
+                if (c < 'a' || c > 'z') {
+                    System.out.println("Invalid string. Please enter only lowercase letters.");
+                    word = null;
+                    break;
+                }
+            }
+        } while (word == null);
+        return word;
     }
 }
