@@ -9,6 +9,7 @@ public class Main {
         String encryptionKey = scanner.nextLine();
         int shiftIndex = determineShiftIndex(encryptionKey);
         System.out.println(shiftIndex);
+        System.out.println(encryptWord(unencryptedWord, shiftIndex));
     }
     public static int determineShiftIndex(String key) {
         int shiftIndex = 0;
@@ -18,7 +19,16 @@ public class Main {
         return shiftIndex;
     }
 
-    public static void encryptWord(String word, int shiftIndex) {
-
+    public static String encryptWord(String word, int shiftIndex) {
+        String encryptedWord = "";
+        for (int i = 0; i < word.length(); i++) {
+            int charIndex = word.charAt(i) - 96;
+            int newCharIndex = charIndex + shiftIndex;
+            if (newCharIndex > 26) {
+                newCharIndex = newCharIndex % 26;
+            }
+            encryptedWord += (char) (newCharIndex + 96);
+        }
+        return encryptedWord;
     }
 }
