@@ -15,6 +15,9 @@ public class Main {
                 case 1: encryptWord(); break;
                 case 2: decryptWord(); break;
                 case 0: return;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                    break;
             }
         } while (option != 0);
     }
